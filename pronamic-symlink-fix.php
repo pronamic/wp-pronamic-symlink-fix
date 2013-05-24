@@ -16,22 +16,25 @@ function pronamic_symlink_fix( $url, $path, $plugin ) {
 	 * 
 	 * URL symlinked plugin:
 	 * $url = http://beta.remcotolsma.nl/wp-content/plugins/Users/pronamic/projects/plugins/pronamic-symlink-fix/readme.txt
-	 *
-	 * $plugin     = /Users/pronamic/Sites/example.com/public_html/wp-content/plugins/pronamic-symlink-fix/pronamic-symlink-fix.php
-	 * $plugin_dir = /Users/pronamic/Sites/example.com/public_html/wp-content/plugins/pronamic-symlink-fix/
 	 */
-	$plugin_dir = plugin_dir_path( $plugin );
-
-	if ( strpos( $url, $plugin_dir ) !== false ) {
+	if ( ! empty( $plugin ) ) {
 		/*
-		 * $replace = /Users/pronamic/Sites/example.com/public_html/wp-content/plugins
+		 * $plugin     = /Users/pronamic/Sites/example.com/public_html/wp-content/plugins/pronamic-symlink-fix/pronamic-symlink-fix.php
+		 * $plugin_dir = /Users/pronamic/Sites/example.com/public_html/wp-content/plugins/pronamic-symlink-fix/
 		 */
-		$replace = dirname( $plugin_dir );
-
-		/*
-		 * $url = http://example.com/wp-content/plugins/pronamic-symlink-fix/readme.txt
-		 */
-		$url = str_replace( $replace, '', $url );
+		$plugin_dir = plugin_dir_path( $plugin );
+	
+		if ( strpos( $url, $plugin_dir ) !== false ) {
+			/*
+			 * $replace = /Users/pronamic/Sites/example.com/public_html/wp-content/plugins
+			 */
+			$replace = dirname( $plugin_dir );
+	
+			/*
+			 * $url = http://example.com/wp-content/plugins/pronamic-symlink-fix/readme.txt
+			 */
+			$url = str_replace( $replace, '', $url );
+		}
 	}
 
 	return $url;
