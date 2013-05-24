@@ -15,7 +15,7 @@ function pronamic_symlink_fix( $url, $path, $plugin ) {
 	 * $url = http://example.com/wp-content/plugins/pronamic-symlink-fix/readme.txt
 	 * 
 	 * URL symlinked plugin:
-	 * $url = http://beta.remcotolsma.nl/wp-content/plugins/Users/pronamic/projects/plugins/pronamic-symlink-fix/readme.txt
+	 * $url = http://beta.remcotolsma.nl/wp-content/plugins/Users/pronamic/projects/pronamic-symlink-fix/readme.txt
 	 */
 	if ( ! empty( $plugin ) ) {
 		/*
@@ -41,3 +41,24 @@ function pronamic_symlink_fix( $url, $path, $plugin ) {
 }
 
 add_filter( 'plugins_url', 'pronamic_symlink_fix', 10, 3 );
+
+function pronamic_symlink_load_textdomain_mofile( $mofile, $domain ) {
+	/*
+	 * MO file normal plugin:
+	 * $mofile = /Users/pronamic/Sites/example.com/public_html/wp-content/plugins/pronamic-symlink-fix/languages/pronamic_symlink_fix-nl_NL.mo
+	 *
+	 * MO file symlinked plugin:
+	 * $mofile = /Users/pronamic/Sites/example.com/public_htm/wp-content/plugins/Users/pronamic/projects/pronamic-symlink-fix/languages/pronamic_symlink_fix-nl_NL.mo
+	 */
+	if ( ! is_readable( $mofile ) ) {
+		$file = str_replace( WP_PLUGIN_DIR, '', $mofile );
+		
+		if ( is_readable( $file ) ) {
+			$mofile = $file;
+		}
+	}
+	
+	return $mofile;
+}
+
+add_filter( 'load_textdomain_mofile', 'pronamic_symlink_load_textdomain_mofile', 10, 2 );
